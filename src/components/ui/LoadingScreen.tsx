@@ -6,8 +6,26 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function LoadingScreen() {
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
+  const [shouldShowLoading, setShouldShowLoading] = useState(false)
 
   useEffect(() => {
+    // Check if this is the first time the app is loading (not a navigation)
+    const isFirstLoad = !sessionStorage.getItem('app_initialized')
+    
+    if (isFirstLoad) {
+      // Mark app as initialized
+      sessionStorage.setItem('app_initialized', 'true')
+      setShouldShowLoading(true)
+    } else {
+      // Not the first load, hide loading screen immediately
+      setLoading(false)
+      setShouldShowLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!shouldShowLoading) return
+
     const duration = 2400
     const interval = 30
     const steps = duration / interval
@@ -23,11 +41,11 @@ export default function LoadingScreen() {
     }, interval)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [shouldShowLoading])
 
   return (
     <AnimatePresence>
-      {loading && (
+      {loading && shouldShowLoading && (
         <motion.div
           className="fixed inset-0 z-[99999] flex flex-col items-center justify-center overflow-hidden"
           style={{
