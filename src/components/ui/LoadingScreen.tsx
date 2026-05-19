@@ -9,15 +9,15 @@ export default function LoadingScreen() {
   const [shouldShowLoading, setShouldShowLoading] = useState(false)
 
   useEffect(() => {
-    // Check if this is the first time the app is loading (not a navigation)
-    const isFirstLoad = !sessionStorage.getItem('app_initialized')
+    // Check if navigation happened (not a full page reload)
+    const isNavigation = window.performance.getEntriesByType('navigation')[0]?.type === 'navigate'
     
-    if (isFirstLoad) {
-      // Mark app as initialized
-      sessionStorage.setItem('app_initialized', 'true')
+    if (isNavigation || !sessionStorage.getItem('app_visited')) {
+      // Mark app as visited
+      sessionStorage.setItem('app_visited', 'true')
       setShouldShowLoading(true)
     } else {
-      // Not the first load, hide loading screen immediately
+      // Navigation event (client-side routing), hide loading screen immediately
       setLoading(false)
       setShouldShowLoading(false)
     }
