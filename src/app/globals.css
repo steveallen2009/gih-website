@@ -1,0 +1,376 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Lora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold:        #D4A843;
+  --gold-lt:     #E8C068;
+  --gold-dk:     #B08830;
+  --navy:        #07111F;
+  --navy-2:      #0C1A2E;
+  --navy-3:      #112240;
+  --azure:       #1B4FD8;
+  --azure-dk:    #0D2B8A;
+  --white:       #FFFFFF;
+  --muted:       rgba(255,255,255,0.45);
+  --faint:       rgba(255,255,255,0.08);
+  --border:      rgba(255,255,255,0.08);
+  --ease:        cubic-bezier(0.16,1,0.3,1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── Custom Cursor ── */
+.cur-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+}
+
+.cur-ring {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(212,168,67,0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  will-change: transform;
+  transition:
+    width .3s var(--ease),
+    height .3s var(--ease),
+    border-color .3s;
+}
+
+.cur-ring.hov {
+  width: 52px;
+  height: 52px;
+  border-color: var(--gold);
+}
+
+/* ── Typography ── */
+.font-display {
+  font-family: 'Lora', Georgia, serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.text-gold {
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Layout ── */
+.wrap {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(20px,4vw,72px);
+}
+
+.section {
+  padding: clamp(72px,8vw,120px) 0;
+}
+
+/* ── Label ── */
+.lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.lbl::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--gold);
+  opacity: .6;
+  flex-shrink: 0;
+}
+
+/* ── Divider ── */
+.divider {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  opacity: .4;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 34px;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border: none;
+  text-decoration: none;
+  transition:
+    background .25s,
+    transform .25s var(--ease),
+    box-shadow .25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.15);
+  opacity: 0;
+  transition: opacity .25s;
+}
+
+.btn-primary:hover {
+  background: var(--gold-lt);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(212,168,67,.35);
+}
+
+.btn-primary:hover::after {
+  opacity: 1;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 34px;
+  background: transparent;
+  color: rgba(255,255,255,.65);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,.2);
+  text-decoration: none;
+  transition:
+    border-color .25s,
+    color .25s,
+    background .25s;
+}
+
+.btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--white);
+  background: rgba(212,168,67,.06);
+}
+
+/* ── Glass card ── */
+.glass {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    border-color .35s,
+    background .35s,
+    transform .35s var(--ease),
+    box-shadow .35s;
+}
+
+.glass:hover {
+  border-color: rgba(212,168,67,.25);
+  background: rgba(255,255,255,.05);
+  transform: translateY(-4px);
+  box-shadow:
+    0 24px 48px rgba(0,0,0,.3),
+    0 0 0 1px rgba(212,168,67,.08);
+}
+
+/* ── Reveal ── */
+.rev {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity .8s var(--ease),
+    transform .8s var(--ease);
+}
+
+.rev.in {
+  opacity: 1;
+  transform: none;
+}
+
+.rev-l {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition:
+    opacity .8s var(--ease),
+    transform .8s var(--ease);
+}
+
+.rev-l.in {
+  opacity: 1;
+  transform: none;
+}
+
+.rev-r {
+  opacity: 0;
+  transform: translateX(32px);
+  transition:
+    opacity .8s var(--ease),
+    transform .8s var(--ease);
+}
+
+.rev-r.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Loader ── */
+.loader-glyph {
+  font-family: 'Lora', serif;
+  font-size: clamp(64px,10vw,140px);
+  font-weight: 700;
+  letter-spacing: .16em;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+}
+
+/* ── Stat accent ── */
+.stat-num {
+  font-family: 'Lora', serif;
+  font-size: clamp(44px,5.5vw,72px);
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+/* ── Service card line ── */
+.svc-card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.06);
+  padding: 40px 32px;
+  transition:
+    background .3s,
+    border-color .3s,
+    transform .35s var(--ease);
+}
+
+.svc-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  transition: width .5s var(--ease);
+}
+
+.svc-card:hover {
+  background: rgba(27,79,216,.06);
+  border-color: rgba(27,79,216,.2);
+  transform: translateY(-3px);
+}
+
+.svc-card:hover::after {
+  width: 100%;
+}
+
+/* ── Project card ── */
+.proj-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform .45s var(--ease);
+}
+
+.proj-card:hover {
+  transform: translateY(-10px);
+}
+
+.proj-card:hover .proj-img {
+  transform: scale(1.06);
+}
+
+.proj-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .7s var(--ease);
+}
+
+/* ── Team card ── */
+.team-card {
+  overflow: hidden;
+  transition:
+    transform .35s var(--ease),
+    box-shadow .35s;
+}
+
+.team-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 64px rgba(0,0,0,.4);
+}
+
+.team-card:hover .team-img {
+  transform: scale(1.04);
+}
+
+.team-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s var(--ease);
+}
