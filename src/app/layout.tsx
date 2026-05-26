@@ -28,6 +28,8 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
+
 export const metadata: Metadata = {
   title: {
     default: 'GIH | Maldives',
@@ -37,9 +39,9 @@ export const metadata: Metadata = {
     'GIH redefines luxury hospitality across the Maldives — world-class hotel management, resort operations and premium tourism experiences.',
   keywords: ['GIH', 'luxury hospitality', 'Maldives resorts', 'hotel management'],
 
-  // ✅ FIXED favicon setup
+  // ✅ FIXED favicon setup with basePath
   icons: {
-    icon: '/favicon.png',
+    icon: `${basePath}/favicon.png`,
   },
 
   openGraph: {
