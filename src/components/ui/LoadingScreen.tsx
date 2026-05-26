@@ -10,7 +10,8 @@ export default function LoadingScreen() {
 
   useEffect(() => {
     // Check if navigation happened (not a full page reload)
-    const isNavigation = window.performance.getEntriesByType('navigation')[0]?.type === 'navigate'
+    const navigationEntry = window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
+    const isNavigation = navigationEntry?.type === 'navigate'
     
     if (isNavigation || !sessionStorage.getItem('app_visited')) {
       // Mark app as visited
