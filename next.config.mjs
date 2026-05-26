@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   basePath: '/gih-website',
+  output: 'export',
   images: {
     remotePatterns: [
       {
