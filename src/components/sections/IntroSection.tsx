@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
-import Image from 'next/image'
 
 const pillars = [
   {
@@ -87,11 +86,10 @@ export default function IntroSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.2 }}
           >
-            <Image
+            <img
               src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=1400&q=85"
               alt="Luxury Maldives Resort"
-              fill
-              className="object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
             />
             <div
               className="absolute inset-0"
