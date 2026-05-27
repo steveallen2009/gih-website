@@ -87,7 +87,7 @@ export default function IntroSection() {
             transition={{ duration: 0.9, delay: 0.2 }}
           >
             <img
-              src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=1400&q=85"
+              src="https://images.pexels.com/photos/35432584/pexels-photo-35432584.jpeg"
               alt="Luxury Maldives Resort"
               className="absolute inset-0 w-full h-full object-cover"
             />
