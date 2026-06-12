@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer'
 import CustomCursor from '@/components/ui/CustomCursor'
 import LoadingScreen from '@/components/ui/LoadingScreen'
 import ScrollToTop from '@/components/ui/ScrollToTop'
+import { ThemeProvider } from '@/lib/themeProvider'
 
 const lora = Lora({
   subsets: ['latin'],
@@ -28,8 +29,6 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
-
 export const metadata: Metadata = {
   title: {
     default: 'GIH | Maldives',
@@ -38,12 +37,9 @@ export const metadata: Metadata = {
   description:
     'GIH redefines luxury hospitality across the Maldives — world-class hotel management, resort operations and premium tourism experiences.',
   keywords: ['GIH', 'luxury hospitality', 'Maldives resorts', 'hotel management'],
-
-  // ✅ FIXED favicon setup with basePath
   icons: {
-    icon: `${basePath}/favicon.png`,
+    icon: '/favicon.png',
   },
-
   openGraph: {
     title: 'GIH Maldives',
     description:
@@ -64,12 +60,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${lora.variable} ${montserrat.variable} ${jetbrainsMono.variable}`}>
       <body>
-        <LoadingScreen />
-        <CustomCursor />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <ScrollToTop />
+        <ThemeProvider>
+          <LoadingScreen />
+          <CustomCursor />
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+          <ScrollToTop />
+        </ThemeProvider>
       </body>
     </html>
   )
