@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { useInView } from '@/hooks/useInView'
+import { useTheme } from '@/lib/themeProvider'
 
 const slides = [
   {
@@ -31,6 +32,8 @@ const slides = [
 export default function LuxuryShowcaseSection() {
   const [ref, inView] = useInView<HTMLElement>({ threshold: 0.2 })
   const [currentSlide, setCurrentSlide] = useState(0)
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,7 +49,7 @@ export default function LuxuryShowcaseSection() {
       className="relative w-full overflow-hidden"
       style={{ minHeight: '80vh' }}
     >
-      {/* Slideshow Background */}
+      {/* Background Slideshow */}
       <div className="absolute inset-0">
         <AnimatePresence initial={false}>
           <motion.div
@@ -66,64 +69,107 @@ export default function LuxuryShowcaseSection() {
             />
           </motion.div>
         </AnimatePresence>
-
-        {/* Dark overlay */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              'linear-gradient(0deg, rgba(7,17,31,0.85) 0%, rgba(7,17,31,0.4) 50%, rgba(7,17,31,0.7) 100%)',
-          }}
-        />
-
-        {/* Gradient accents */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(27,79,216,0.12) 0%, transparent 70%)',
-          }}
-        />
       </div>
+
+      {/* FIXED overlay (balanced readability, not heavy) */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: isDark
+            ? 'linear-gradient(0deg, rgba(7,17,31,0.65), rgba(7,17,31,0.25), rgba(7,17,31,0.55))'
+
+            // FIX: lighter but higher contrast than before
+            : 'linear-gradient(0deg, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.18) 50%, rgba(255,255,255,0.22) 100%)',
+        }}
+      />
+
+      {/* Accent glow (kept subtle) */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: isDark
+            ? 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(27,79,216,0.12), transparent 70%)'
+            : 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(27,79,216,0.05), transparent 75%)',
+        }}
+      />
 
       {/* Content */}
-      <div
-        className="wrap relative z-10 flex items-center justify-center"
-        style={{ minHeight: '80vh' }}
-      >
-        <div className="text-center max-w-3xl">
-          <motion.div
-            className="lbl mb-6 justify-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            Island Living
-          </motion.div>
+<div
+  className="wrap relative z-10 flex items-center justify-center"
+  style={{ minHeight: '80vh' }}
+>
+  {/* NEW: soft readability fade (mode-aware) */}
+<div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+  <div
+    style={{
+      width: '100%',
+      height: '100%',
 
-          <motion.h2
-            className="font-display font-light text-white mb-6 leading-tight"
-            style={{ fontSize: 'clamp(36px, 5vw, 68px)' }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.15 }}
-          >
-            Where Ocean Meets
-            <br />
-            <span className="text-gold">Exceptional Hospitality</span>
-          </motion.h2>
+      background: isDark
+        // DARK MODE: cinematic vignette (unchanged feel)
+        ? 'radial-gradient(circle at center, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.02) 30%, transparent 90%)'
 
-          <motion.p
-            className="text-white/50 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Discover curated luxury across the Maldives' most pristine atolls — where every moment
-            is designed to transcend the ordinary.
-          </motion.p>
-        </div>
-      </div>
+        // LIGHT MODE: soft WHITE fade (key fix)
+        : 'radial-gradient(circle at center, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.20) 45%, transparent 75%)',
+    }}
+  />
+</div>
+
+  {/* Content (unchanged structure, just now sits above fade) */}
+  <div className="text-center max-w-3xl relative">
+
+    {/* Label */}
+    <motion.div
+      className="lbl mb-6 justify-center"
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8 }}
+      style={{
+        color: isDark
+          ? 'rgba(212,168,67,0.95)'
+          : 'rgba(186,140,40,0.95)',
+        letterSpacing: '0.12em',
+      }}
+    >
+      Island Living
+    </motion.div>
+
+    {/* Title */}
+    <motion.h2
+      className="font-display font-light mb-6 leading-tight"
+      style={{
+        fontSize: 'clamp(36px, 5vw, 68px)',
+        color: isDark
+          ? 'var(--text-primary)'
+          : 'rgba(10,10,10,0.95)',
+      }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay: 0.15 }}
+    >
+      Where Ocean Meets
+      <br />
+      <span className="text-gold">Exceptional Hospitality</span>
+    </motion.h2>
+
+    {/* Subtitle */}
+    <motion.p
+      className="text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
+      style={{
+        color: isDark
+          ? 'rgba(255,255,255,0.65)'
+          : 'rgba(10,10,10,0.78)',
+      }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay: 0.3 }}
+    >
+      Discover curated luxury across the Maldives' most pristine atolls — where every moment
+      is designed to transcend the ordinary.
+    </motion.p>
+
+  </div>
+</div>
     </section>
   )
 }
