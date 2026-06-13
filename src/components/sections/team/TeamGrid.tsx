@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
 import Image from 'next/image'
+import { useTheme } from '@/lib/themeProvider'
 
 const teamMembers = [
   {
@@ -63,9 +64,17 @@ const teamMembers = [
 
 export default function TeamGrid() {
   const [ref, inView] = useInView<HTMLElement>()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
-    <section ref={ref} className="section" style={{ background: '#07111F' }}>
+    <section
+      ref={ref}
+      className="section transition-colors duration-300"
+      style={{
+        background: isDark ? '#07111F' : 'var(--bg-primary)',
+      }}
+    >
       <div className="wrap">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {teamMembers.map((member, i) => (
@@ -94,11 +103,27 @@ export default function TeamGrid() {
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="font-body font-semibold text-white text-lg mb-0.5">{member.name}</h3>
-                <p className="font-mono text-[10px] tracking-[0.22em] text-gold opacity-75 uppercase mb-3">
+                <h3
+                  className="font-body font-light text-lg mb-0.5 transition-colors duration-300"
+                  style={{
+                    color: 'var(--text-primary)',
+                  }}
+                >
+                  {member.name}
+                </h3>
+                <p
+                  className="font-mono text-[10px] tracking-[0.22em] text-gold opacity-75 uppercase mb-3"
+                >
                   {member.role}
                 </p>
-                <p className="text-sm text-white/38 leading-relaxed">{member.bio}</p>
+                <p
+                  className="text-sm leading-relaxed transition-colors duration-300"
+                  style={{
+                    color: 'var(--text-tertiary)',
+                  }}
+                >
+                  {member.bio}
+                </p>
               </div>
             </motion.div>
           ))}
