@@ -168,7 +168,7 @@ export default function TermsPage() {
         }}
       >
         <div className="font-mono text-sm space-y-2">
-          <div>Global Integrated Hospitality (GIH)</div>
+          <div>GIH</div>
           <div>Malé, Maldives</div>
           <div>
             Email:{' '}
