@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
+import { useTheme } from '@/lib/themeProvider'
 
 const milestones = [
   {
@@ -43,9 +44,17 @@ const milestones = [
 
 export default function Timeline() {
   const [ref, inView] = useInView<HTMLElement>({ threshold: 0.05 })
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
-    <section ref={ref} className="section relative overflow-hidden" style={{ background: '#0C1A2E' }}>
+    <section
+      ref={ref}
+      className="section relative overflow-hidden transition-colors duration-300"
+      style={{
+        background: isDark ? '#0C1A2E' : 'var(--bg-secondary)',
+      }}
+    >
       <div className="wrap">
         <div className="text-center mb-16">
           <motion.div
@@ -56,13 +65,16 @@ export default function Timeline() {
             Our Journey
           </motion.div>
           <motion.h2
-            className="font-display font-light text-white"
-            style={{ fontSize: 'clamp(28px, 3.5vw, 52px)' }}
+            className="font-display font-light transition-colors duration-300"
+            style={{
+              fontSize: 'clamp(28px, 3.5vw, 52px)',
+              color: 'var(--text-primary)',
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1 }}
           >
-            The GIH <span className=" text-gold">Timeline</span>
+            The GIH <span className="text-gold">Timeline</span>
           </motion.h2>
         </div>
 
@@ -91,7 +103,12 @@ export default function Timeline() {
                   transition={{ duration: 0.7, delay: i * 0.12 }}
                 >
                   {/* Dot */}
-                  <div className="absolute left-4 md:left-1/2 top-2 w-3 h-3 rounded-full border-2 border-gold bg-navy -translate-x-1/2 z-10" />
+                  <div
+                    className="absolute left-4 md:left-1/2 top-2 w-3 h-3 rounded-full border-2 border-gold -translate-x-1/2 z-10 transition-colors duration-300"
+                    style={{
+                      background: isDark ? '#07111F' : 'var(--bg-primary)',
+                    }}
+                  />
 
                   {/* Card */}
                   <div
@@ -103,12 +120,32 @@ export default function Timeline() {
                       <span className="lbl" style={{ fontSize: '9px' }}>
                         {year}
                       </span>
-                      <span className="font-mono text-[9px] text-white/20 tracking-wider">
+                      <span
+                        className="font-mono text-[9px] tracking-wider transition-colors duration-300"
+                        style={{
+                          color: isDark
+                            ? 'rgba(255,255,255,0.30)'
+                : 'rgba(23,20,17,0.55)',
+                        }}
+                      >
                         / {quarter}
                       </span>
                     </div>
-                    <h3 className="font-body font-semibold text-gold text-base mb-2">{title}</h3>
-                    <p className="text-sm text-white/38 leading-relaxed">{description}</p>
+                    <h3
+                      className="font-body font-semibold text-gold text-base mb-2 transition-colors duration-300"
+                    >
+                      {title}
+                    </h3>
+                    <p
+                      className="text-sm leading-relaxed transition-colors duration-300"
+                      style={{
+                        color: isDark
+                          ? 'rgba(255,255,255,0.38)'
+                          : 'rgba(27,27,27,0.45)',
+                      }}
+                    >
+                      {description}
+                    </p>
                   </div>
                 </motion.div>
               )
