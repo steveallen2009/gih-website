@@ -2,9 +2,9 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
-import { MapPin, Clock, Layers } from 'lucide-react'
-import { Gem } from 'lucide-react'
+import { MapPin, Clock, Layers, Gem } from 'lucide-react'
 import Image from 'next/image'
+import { useTheme } from '@/lib/themeProvider'
 
 const projects = [
   {
@@ -67,9 +67,17 @@ const projects = [
 
 export default function ProjectsGrid() {
   const [ref, inView] = useInView<HTMLElement>()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
-    <section ref={ref} className="section" style={{ background: '#07111F' }}>
+    <section
+      ref={ref}
+      className="section transition-colors duration-300"
+      style={{
+        background: isDark ? '#07111F' : 'var(--bg-primary)',
+      }}
+    >
       <div className="wrap">
         {/* Coming soon banner */}
         <motion.div
@@ -84,13 +92,22 @@ export default function ProjectsGrid() {
           />
           <Gem size={28} className="text-gold mx-auto mb-4" strokeWidth={1} />
           <h2
-            className="font-display font-semibold text-white mb-3 leading-tight"
-            style={{ fontSize: 'clamp(22px, 2.5vw, 34px)' }}
+            className="font-display font-light mb-3 leading-tight transition-colors duration-300"
+            style={{
+              fontSize: 'clamp(22px, 2.5vw, 34px)',
+              color: 'var(--text-primary)',
+            }}
           >
             The <span className="text-gold">GIH Collection</span>
           </h2>
-          <p className="text-white/35 text-base max-w-lg mx-auto">
-            A curated collection of luxury island destinations envisioned across the Maldives — each designed to deliver exceptional hospitality, refined experiences, and timeless ocean living.
+          <p
+            className="text-base max-w-lg mx-auto transition-colors duration-300"
+            style={{
+              color: 'var(--text-tertiary)',
+            }}
+          >
+            A curated collection of luxury island destinations envisioned across the Maldives — each
+            designed to deliver exceptional hospitality, refined experiences, and timeless ocean living.
           </p>
         </motion.div>
 
@@ -125,9 +142,9 @@ export default function ProjectsGrid() {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="font-mono text-[9px] tracking-[0.2em] uppercase px-2 py-1 rounded"
+                        className="font-mono text-[9px] tracking-[0.2em] uppercase px-2 py-1 rounded transition-colors duration-300"
                         style={{
-                          background: `${project.color}18`,
+                          background: `${project.color}20`,
                           border: `1px solid ${project.color}30`,
                           color: project.color,
                         }}
@@ -137,9 +154,9 @@ export default function ProjectsGrid() {
                     ))}
                   </div>
                   <span
-                    className="font-mono text-[9px] tracking-wider uppercase px-2.5 py-1 rounded-full shrink-0"
+                    className="font-mono text-[9px] tracking-wider uppercase px-2.5 py-1 rounded-full shrink-0 transition-colors duration-300"
                     style={{
-                      background: `${project.statusColor}15`,
+                      background: `${project.statusColor}18`,
                       border: `1px solid ${project.statusColor}30`,
                       color: project.statusColor,
                     }}
@@ -160,14 +177,24 @@ export default function ProjectsGrid() {
 
                 {/* Name */}
                 <h3
-                  className="font-display font-light text-white mb-2 group-hover:text-gold transition-colors duration-400"
-                  style={{ fontSize: 'clamp(22px, 2vw, 28px)' }}
+                  className="font-display font-light mb-2 group-hover:text-gold transition-colors duration-400"
+                  style={{
+                    fontSize: 'clamp(22px, 2vw, 28px)',
+                    color: 'var(--text-primary)',
+                  }}
                 >
                   {project.name}
                 </h3>
 
                 {/* Meta */}
-                <div className="flex flex-wrap gap-4 mb-4 text-white/30 text-xs">
+                <div
+                  className="flex flex-wrap gap-4 mb-4 text-xs transition-colors duration-300"
+                  style={{
+                    color: isDark
+                      ? 'rgba(255,255,255,0.3)'
+                      : 'rgba(27,27,27,0.3)',
+                  }}
+                >
                   <span className="flex items-center gap-1.5">
                     <MapPin size={11} />
                     {project.location}
@@ -178,15 +205,45 @@ export default function ProjectsGrid() {
                   </span>
                 </div>
 
-                <p className="text-sm text-white/38 leading-relaxed">{project.description}</p>
+                <p
+                  className="text-sm leading-relaxed transition-colors duration-300"
+                  style={{
+                    color: 'var(--text-tertiary)',
+                  }}
+                >
+                  {project.description}
+                </p>
 
                 {/* Footer */}
-                <div className="mt-6 pt-5 border-t border-white/5 flex items-center justify-between">
+                <div
+                  className="mt-6 pt-5 flex items-center justify-between transition-colors duration-300"
+                  style={{
+                    borderTop: isDark
+                      ? '1px solid rgba(255,255,255,0.05)'
+                      : '1px solid rgba(27,27,27,0.05)',
+                  }}
+                >
                   <div>
-                    <span className="font-mono text-[9px] text-white/20 tracking-wider uppercase block">
+                    <span
+                      className="font-mono text-[9px] tracking-wider uppercase block transition-colors duration-300"
+                      style={{
+                        color: isDark
+                          ? 'rgba(255,255,255,0.2)'
+                          : 'rgba(27,27,27,0.2)',
+                      }}
+                    >
                       Expected Launch
                     </span>
-                    <span className="font-display text-xl text-white/40">{project.year}</span>
+                    <span
+                      className="font-display text-xl transition-colors duration-300"
+                      style={{
+                        color: isDark
+                          ? 'rgba(255,255,255,0.4)'
+                          : 'rgba(27,27,27,0.4)',
+                      }}
+                    >
+                      {project.year}
+                    </span>
                   </div>
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400"
