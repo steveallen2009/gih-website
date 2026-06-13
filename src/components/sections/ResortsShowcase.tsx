@@ -5,6 +5,7 @@ import { useInView } from '@/hooks/useInView'
 import { ArrowRight, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTheme } from '@/lib/themeProvider'
 
 const resorts = [
   {
@@ -35,9 +36,17 @@ const resorts = [
 
 export default function ResortsShowcase() {
   const [ref, inView] = useInView<HTMLElement>()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
-    <section ref={ref} className="section bg-navy">
+    <section
+      ref={ref}
+      className="section transition-colors duration-300"
+      style={{
+        background: isDark ? 'var(--bg-primary)' : 'var(--bg-primary)',
+      }}
+    >
       <div className="wrap">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
@@ -51,15 +60,18 @@ export default function ResortsShowcase() {
               Portfolio
             </motion.div>
             <motion.h2
-              className="font-display font-light text-white leading-tight"
-              style={{ fontSize: 'clamp(28px, 3.5vw, 52px)' }}
+              className="font-display font-light leading-tight transition-colors duration-300"
+              style={{
+                fontSize: 'clamp(28px, 3.5vw, 52px)',
+                color: 'var(--text-primary)',
+              }}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.1 }}
             >
               Featured Resort
               <br />
-              <span className=" text-gold">Concepts</span>
+              <span className="text-gold">Concepts</span>
             </motion.h2>
           </div>
           <motion.div
@@ -69,7 +81,12 @@ export default function ResortsShowcase() {
           >
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 text-sm text-white/45 hover:text-gold transition-colors duration-300 group"
+              className="inline-flex items-center gap-2 text-sm transition-colors duration-300 group"
+              style={{
+                color: isDark
+                  ? 'rgba(255,255,255,0.45)'
+                  : 'rgba(27,27,27,0.45)',
+              }}
             >
               View All Projects
               <ArrowRight
@@ -112,7 +129,7 @@ export default function ResortsShowcase() {
               <div className="absolute inset-0 p-6 flex flex-col justify-between">
                 {/* Status badge */}
                 <span
-                  className="self-start font-mono text-[9px] tracking-wider uppercase px-3 py-1.5 rounded-full"
+                  className="self-start font-mono text-[9px] tracking-wider uppercase px-3 py-1.5 rounded-full transition-colors duration-300"
                   style={{
                     background: 'rgba(7,17,31,0.6)',
                     border: `1px solid ${statusColor}50`,
@@ -124,7 +141,12 @@ export default function ResortsShowcase() {
 
                 {/* Bottom info */}
                 <div>
-                  <div className="font-mono text-[9px] tracking-wider text-white/35 uppercase mb-2">
+                  <div
+                    className="font-mono text-[9px] tracking-wider uppercase mb-2 transition-colors duration-300"
+                    style={{
+                      color: 'rgba(255,255,255,0.35)',
+                    }}
+                  >
                     {type}
                   </div>
                   <h3 className="font-display font-light text-white text-2xl mb-3 leading-tight">
