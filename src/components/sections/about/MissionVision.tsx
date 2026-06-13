@@ -4,12 +4,21 @@ import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
 import { Target, Eye } from 'lucide-react'
 import Image from 'next/image'
+import { useTheme } from '@/lib/themeProvider'
 
 export default function MissionVision() {
   const [ref, inView] = useInView<HTMLElement>()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
-    <section ref={ref} className="section" style={{ background: '#07111F' }}>
+    <section
+      ref={ref}
+      className="section transition-colors duration-300"
+      style={{
+        background: isDark ? '#07111F' : 'var(--bg-primary)',
+      }}
+    >
       <div className="wrap">
         {/* Mission */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
@@ -40,19 +49,31 @@ export default function MissionVision() {
             transition={{ duration: 1, delay: 0.2 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <Target size={18} className="text-gold opacity-60" strokeWidth={1.5} />
+              <Target
+                size={18}
+                className="text-gold opacity-60"
+                strokeWidth={1.5}
+              />
               <span className="lbl" style={{ fontSize: '9px' }}>
                 Our Mission
               </span>
             </div>
             <h2
-              className="font-display font-light text-white mb-5 leading-tight"
-              style={{ fontSize: 'clamp(28px, 3vw, 42px)' }}
+              className="font-display font-light mb-5 leading-tight transition-colors duration-300"
+              style={{
+                fontSize: 'clamp(28px, 3vw, 42px)',
+                color: 'var(--text-primary)',
+              }}
             >
               To Redefine Luxury Living
             </h2>
             <div className="w-12 h-px bg-gold opacity-30 mb-6" />
-            <p className="text-white/50 text-base leading-relaxed">
+            <p
+              className="text-base leading-relaxed transition-colors duration-300"
+              style={{
+                color: 'var(--text-tertiary)',
+              }}
+            >
               To operate and manage world-class hospitality properties across the Maldives that
               deliver transformative experiences — setting new benchmarks for luxury, sustainability,
               and guest delight in the Indian Ocean.
@@ -68,19 +89,31 @@ export default function MissionVision() {
             transition={{ duration: 1, delay: 0.4 }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <Eye size={18} className="text-gold opacity-60" strokeWidth={1.5} />
+              <Eye
+                size={18}
+                className="text-gold opacity-60"
+                strokeWidth={1.5}
+              />
               <span className="lbl" style={{ fontSize: '9px' }}>
                 Our Vision
               </span>
             </div>
             <h2
-              className="font-display font-light text-white mb-5 leading-tight"
-              style={{ fontSize: 'clamp(28px, 3vw, 42px)' }}
+              className="font-display font-light mb-5 leading-tight transition-colors duration-300"
+              style={{
+                fontSize: 'clamp(28px, 3vw, 42px)',
+                color: 'var(--text-primary)',
+              }}
             >
               Maldives' Most Trusted Brand
             </h2>
             <div className="w-12 h-px bg-gold opacity-30 mb-6" />
-            <p className="text-white/50 text-base leading-relaxed">
+            <p
+              className="text-base leading-relaxed transition-colors duration-300"
+              style={{
+                color: 'var(--text-tertiary)',
+              }}
+            >
               To become the most trusted and celebrated luxury hospitality management company in the
               Maldives — recognised globally for craftsmanship, integrity, and the ability to create
               experiences that endure.
