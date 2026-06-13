@@ -1,11 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useTheme } from '@/lib/themeProvider'
 
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
   const [enabled, setEnabled] = useState(false)
+  const { theme } = useTheme()
 
   useEffect(() => {
     // ONLY disable on actual mobile/tablet coarse-pointer devices
