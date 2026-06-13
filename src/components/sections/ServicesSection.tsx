@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
 import Image from 'next/image'
+import { useTheme } from '@/lib/themeProvider'
 
 const services = [
   {
@@ -39,15 +40,23 @@ const services = [
 
 export default function ServicesSection() {
   const [ref, inView] = useInView<HTMLElement>()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
     <section
       ref={ref}
-      className="section relative"
+      className="section relative transition-colors duration-300"
       style={{
-        background: 'linear-gradient(180deg, #0C1A2E 0%, #07111F 100%)',
-        borderTop: '1px solid rgba(255,255,255,0.05)',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        background: isDark
+          ? 'linear-gradient(180deg, #0C1A2E 0%, #07111F 100%)'
+          : `linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%)`,
+        borderTop: isDark
+          ? '1px solid rgba(255,255,255,0.05)'
+          : '1px solid rgba(27,27,27,0.05)',
+        borderBottom: isDark
+          ? '1px solid rgba(255,255,255,0.05)'
+          : '1px solid rgba(27,27,27,0.05)',
       }}
     >
       <div className="wrap">
@@ -62,8 +71,11 @@ export default function ServicesSection() {
             What We Create
           </motion.div>
           <motion.h2
-            className="font-display font-light text-white leading-tight"
-            style={{ fontSize: 'clamp(28px, 3.5vw, 52px)' }}
+            className="font-display font-light leading-tight transition-colors duration-300"
+            style={{
+              fontSize: 'clamp(28px, 3.5vw, 52px)',
+              color: 'var(--text-primary)',
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.1 }}
@@ -108,7 +120,9 @@ export default function ServicesSection() {
 
               {/* Content */}
               <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <h3 className="font-display font-light text-white text-xl mb-2 leading-tight group-hover:text-gold transition-colors duration-300">
+                <h3
+                  className="font-display font-light text-white text-xl mb-2 leading-tight group-hover:text-gold transition-colors duration-300"
+                >
                   {title}
                 </h3>
                 <p className="text-sm text-white/50 leading-relaxed">{description}</p>
