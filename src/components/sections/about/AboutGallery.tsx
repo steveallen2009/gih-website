@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
 import Image from 'next/image'
+import { useTheme } from '@/lib/themeProvider'
 
 const galleryImages = [
   {
@@ -29,9 +30,17 @@ const galleryImages = [
 
 export default function AboutGallery() {
   const [ref, inView] = useInView<HTMLElement>({ threshold: 0.1 })
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
-    <section ref={ref} className="section" style={{ background: '#0C1A2E' }}>
+    <section
+      ref={ref}
+      className="section transition-colors duration-300"
+      style={{
+        background: isDark ? '#0C1A2E' : 'var(--bg-secondary)',
+      }}
+    >
       <div className="wrap">
         <div className="text-center mb-14">
           <motion.div
@@ -42,8 +51,11 @@ export default function AboutGallery() {
             Our Vision
           </motion.div>
           <motion.h2
-            className="font-display font-light text-white leading-tight mb-5"
-            style={{ fontSize: 'clamp(28px, 3.5vw, 52px)' }}
+            className="font-display font-light leading-tight mb-5 transition-colors duration-300"
+            style={{
+              fontSize: 'clamp(28px, 3.5vw, 52px)',
+              color: 'var(--text-primary)',
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.1 }}
@@ -51,7 +63,10 @@ export default function AboutGallery() {
             The World We Are Building
           </motion.h2>
           <motion.p
-            className="text-white/45 text-base md:text-lg max-w-2xl mx-auto leading-relaxed"
+            className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed transition-colors duration-300"
+            style={{
+              color: 'var(--text-tertiary)',
+            }}
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.2 }}
