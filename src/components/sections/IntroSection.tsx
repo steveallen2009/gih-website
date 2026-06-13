@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from '@/hooks/useInView'
+import Image from 'next/image'
+import { useTheme } from '@/lib/themeProvider'
 
 const pillars = [
   {
@@ -23,9 +25,18 @@ const pillars = [
 
 export default function IntroSection() {
   const [ref, inView] = useInView<HTMLElement>({ threshold: 0.1 })
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   return (
-    <section id="intro" ref={ref} className="section bg-navy">
+    <section
+      id="intro"
+      ref={ref}
+      className="section transition-colors duration-300"
+      style={{
+        background: isDark ? 'var(--bg-primary)' : 'var(--bg-primary)',
+      }}
+    >
       <div className="wrap">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left — text */}
@@ -40,8 +51,11 @@ export default function IntroSection() {
             </motion.div>
 
             <motion.h2
-              className="font-display font-light text-white mb-6 leading-tight"
-              style={{ fontSize: 'clamp(32px, 4vw, 56px)' }}
+              className="font-display font-light mb-6 leading-tight transition-colors duration-300"
+              style={{
+                fontSize: 'clamp(32px, 4vw, 56px)',
+                color: 'var(--text-primary)',
+              }}
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.9, delay: 0.1 }}
@@ -59,7 +73,10 @@ export default function IntroSection() {
             />
 
             <motion.p
-              className="text-white/45 text-base leading-relaxed mb-5"
+              className="text-base leading-relaxed mb-5 transition-colors duration-300"
+              style={{
+                color: 'var(--text-tertiary)',
+              }}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -69,7 +86,10 @@ export default function IntroSection() {
             </motion.p>
 
             <motion.p
-              className="text-white/45 text-base leading-relaxed"
+              className="text-base leading-relaxed transition-colors duration-300"
+              style={{
+                color: 'var(--text-tertiary)',
+              }}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.5 }}
@@ -86,10 +106,11 @@ export default function IntroSection() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.9, delay: 0.2 }}
           >
-            <img
+            <Image
               src="https://images.pexels.com/photos/35432584/pexels-photo-35432584.jpeg"
               alt="Luxury Maldives Resort"
-              className="absolute inset-0 w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
             <div
               className="absolute inset-0"
@@ -111,8 +132,22 @@ export default function IntroSection() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.6 + i * 0.1 }}
             >
-              <h3 className="font-body font-light text-white text-base mb-2">{title}</h3>
-              <p className="text-sm text-white/40 leading-relaxed">{description}</p>
+              <h3
+                className="font-body font-light text-base mb-2 transition-colors duration-300"
+                style={{
+                  color: 'var(--text-primary)',
+                }}
+              >
+                {title}
+              </h3>
+              <p
+                className="text-sm leading-relaxed transition-colors duration-300"
+                style={{
+                  color: 'var(--text-tertiary)',
+                }}
+              >
+                {description}
+              </p>
             </motion.div>
           ))}
         </div>
